@@ -1,0 +1,162 @@
+<div class="success-container">
+  <div class="success-card">
+    <% if (status === 'unacc') { %>
+      <i class="bi bi-send-check-fill check-icon"></i>
+      <h2 class="success-title">Izin Berhasil Diajukan!</h2>
+    <% } %>
+    
+    <% if (status === 'accpiket') { %>
+      <i class="bi bi-check-circle-fill check-icon"></i>
+      <h2 class="success-title">Izin Diperoleh!</h2>
+    <% } %>
+
+    <% if (status === 'rejected_wakel' || status === 'rejected_kesiswaan' || status === 'rejected_piket') { %>
+      <i class="bi bi-x-circle-fill check-icon"></i>
+      <h2 class="success-title">Izin Ditolak!</h2>
+    <% } %>
+
+    <% if (status === 'accwakel' || status === 'acckesiswaan') { %>
+      <i class="bi bi-hourglass-split check-icon"></i>
+      <h2 class="success-title">Izin Sedang Diproses!</h2>
+    <% } %>
+
+    <div class="detail-box">
+
+      <% if (status === 'rejected_wakel') { %>
+        <div class="detail-item"><span>Di Tolak:</span>Wakel</div>
+      <% } else if (status === 'rejected_kesiswaan') { %>
+        <div class="detail-item"><span>Di Tolak:</span>Kesiswaan</div>
+      <% } else { %>
+        <div class="detail-item"><span>Di Tolak:</span>Piket</div>
+      <% } %>
+
+      <div class="detail-item"><span>Nama:</span><%= izin.nama %></div>
+      <div class="detail-item"><span>Kelas:</span><%= izin.kelas %></div>
+      <div class="detail-item"><span>Keperluan:</span><%= izin.keperluan %></div>
+      <div class="detail-item"><span>Tanggal:</span><%= formatDate(izin.created_at) %></div>
+      <div class="detail-item"><span>Jam Selesai:</span><%= izin.jam_selesai %></div>
+    </div>
+
+    <a href="/" class="btn-home">Kembali ke Beranda</a>
+  </div>
+</div>
+
+<% if (status == 'unacc') { %>
+<style>
+  body {
+    background: linear-gradient(135deg, #FFB75E, #ED8F03);
+    color: #fff;
+  }
+  .check-icon { color: #fff176; } /* lebih kontras */
+  .btn-home { background: #FF9800; color: #fff; }
+  .btn-home:hover { background: #E65100; }
+</style>
+<% } else if (status == 'accpiket') { %>
+<style>
+  body {
+    background: linear-gradient(135deg, #56ab2f, #a8e063);
+    color: #fff;
+  }
+  .check-icon { color: #fff; } /* putih biar keliatan */
+  .btn-home { background: #4CAF50; color: #fff; }
+  .btn-home:hover { background: #2E7D32; }
+</style>
+<% } else if (status == 'rejected_wakel' || status == 'rejected_kesiswaan' || status == 'rejected_piket') { %>
+<style>
+  body {
+    background: linear-gradient(135deg, #cb2d3e, #ef473a);
+    color: #fff;
+  }
+  .check-icon { color: #fff; }
+  .btn-home { background: #F44336; color: #fff; }
+  .btn-home:hover { background: #B71C1C; }
+</style>
+<% } else { %>
+<style>
+  body {
+    background: linear-gradient(135deg, #1e3c72, #2a5298);
+    color: #fff;
+  }
+  .check-icon { color: #fff; }
+  .btn-home { background: #2196F3; color: #fff; }
+  .btn-home:hover { background: #0D47A1; }
+</style>
+<% } %>
+
+<style>
+  body {
+    margin: 0;
+    font-family: "Segoe UI", sans-serif;
+  }
+
+  .success-container {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+  }
+
+  .success-card {
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 20px;
+    padding: 35px 25px;
+    max-width: 480px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(10px);
+    color: #fff; /* pastikan semua text putih */
+  }
+
+  .check-icon {
+    font-size: 4.5rem;
+    margin-bottom: 20px;
+  }
+
+  .success-title {
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin-bottom: 25px;
+    letter-spacing: 0.5px;
+  }
+
+  .detail-box {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    padding: 18px 20px;
+    margin-bottom: 25px;
+    text-align: left;
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #fff;
+  }
+
+  .detail-item {
+    margin-bottom: 10px;
+  }
+
+  .detail-item span {
+    font-weight: 600;
+    display: inline-block;
+    width: 120px;
+    color: #ffffff;
+    font-weight: 300;
+  }
+
+  .btn-home {
+    display: inline-block;
+    border-radius: 12px;
+    padding: 12px 26px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+  }
+
+  .btn-home:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.35);
+  }
+</style>

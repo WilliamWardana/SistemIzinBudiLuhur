@@ -1,0 +1,378 @@
+<div class="bg-image">
+  <div class="d-flex justify-content-center align-items-center min-vh-100 py-4">
+    <div class="container">
+      <div class="row g-4 justify-content-center">
+        <div class="col-12 col-lg-5">
+          <div class="card shadow-lg form-card p-4">
+            <div class="text-center mb-4">
+              <h3 class="fw-bold text-white">Form Izin Siswa</h3>
+              <div class="line mb-2 mx-auto"></div>
+              <p class="text-white-50 small">
+                Isi data berikut untuk mengajukan izin
+              </p>
+            </div>
+
+            <form method="POST" action="/siswa/izin">
+              <div class="mb-3">
+                <label class="form-label text-white">NIS</label>
+                <input
+                  type="text"
+                  name="nis"
+                  class="form-control glass-input"
+                  readonly
+                  value="<%= nis %>"
+                  required
+                />
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label text-white">Nama</label>
+                <input
+                  type="text"
+                  name="nama"
+                  class="form-control glass-input"
+                  readonly
+                  value="<%= siswa.nama %>"
+                  required
+                />
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label text-white">Kelas</label>
+                <input
+                  type="text"
+                  name="kelas"
+                  class="form-control glass-input"
+                  readonly
+                  value="<%= siswa.kelas %>"
+                  required
+                />
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label text-white">Peminatan</label>
+                <input
+                  type="text"
+                  name="peminatan"
+                  class="form-control glass-input"
+                  readonly
+                  value="<%= siswa.peminatan %>"
+                  required
+                />
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label text-white">Keperluan</label>
+                <textarea
+                  name="keperluan"
+                  class="form-control glass-input"
+                  rows="3"
+                  placeholder="Tuliskan keperluan izin Anda"
+                  required
+                ></textarea>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label text-white">Jam Selesai</label>
+                <div class="time-input-container">
+                  <span
+                    class="input-group-text bg-transparent text-white border-0"
+                  >
+                    <i class="bi bi-clock"></i>
+                  </span>
+
+                  <select name="jam" class="form-control glass-input" required>
+                    <option value="">Jam</option>
+                    <% for (let i = 0; i < 24; i++) { %>
+                    <option value="<%= i.toString().padStart(2, '0') %>">
+                      <%= i.toString().padStart(2, '0') %>
+                    </option>
+                    <% } %>
+                  </select>
+
+                  <span
+                    class="input-group-text bg-transparent text-white border-0"
+                    >:</span
+                  >
+
+                  <select
+                    name="menit"
+                    class="form-control glass-input"
+                    required
+                  >
+                    <option value="">Menit</option>
+                    <% for (let i = 0; i < 60; i+=5) { %>
+                    <option value="<%= i.toString().padStart(2, '0') %>">
+                      <%= i.toString().padStart(2, '0') %>
+                    </option>
+                    <% } %>
+                  </select>
+                </div>
+              </div>
+
+              <div class="d-grid">
+                <button type="submit" class="btn btn-gradient fw-bold py-2">
+                  Minta Izin
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <div class="col-12 col-lg-7">
+          <div class="card shadow-lg form-card p-3">
+            <h5 class="text-white fw-bold mb-3">Riwayat Izin</h5>
+            <div class="table-responsive no-scrollbar">
+              <table class="table table-hover align-middle text-white mb-0">
+                <thead>
+                  <tr>
+                    <th>No</th>
+                    <th>Keperluan Izin</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% izins.forEach((izin, index) => { %>
+                  <tr>
+                    <td class="text-white"><%= index + 1 %></td>
+                    <td class="text-white"><%= izin.keperluan %></td>
+                    <td class="text-white">
+                      <% if (izin.status === 'unaccept') { %>
+                      <a
+                        href="/bukti_izin?status=unacc&id=<%= izin.id %>"
+                        class="badge bg-warning text-dark"
+                        >Belum Izin</a
+                      >
+                      <% } else if (izin.status === 'accwakel') { %>
+                      <a
+                        href="/bukti_izin?status=accwakel&id=<%= izin.id %>"
+                        class="badge bg-primary"
+                        >Wakel Mengizinkan</a
+                      >
+                      <% } else if (izin.status === 'acckesiswaan') { %>
+                      <a
+                        href="/bukti_izin?status=acckesiswaan&id=<%= izin.id %>"
+                        class="badge bg-info"
+                        >Kesiswaan Mengizinkan</a
+                      >
+                      <% } else if (izin.status === 'accpiket') { %>
+                      <a
+                        href="/bukti_izin?status=accpiket&id=<%= izin.id %>"
+                        class="badge bg-success"
+                        >Anda Diizinkan</a
+                      >
+                      <% } else { %> <% if (izin.status === 'rejected_wakel') {
+                      %>
+                      <a
+                        href="/bukti_izin?status=rejected_wakel&id=<%= izin.id %>"
+                        class="badge bg-danger"
+                        >Ditolak</a
+                      >
+                      <% } else if (izin.status === 'rejected_kesiswaan') { %>
+                      <a
+                        href="/bukti_izin?status=rejected_kesiswaan&id=<%= izin.id %>"
+                        class="badge bg-danger"
+                        >Ditolak</a
+                      >
+                      <% } else { %>
+                      <a
+                        href="/bukti_izin?status=rejected_piket&id=<%= izin.id %>"
+                        class="badge bg-danger"
+                        >Ditolak</a
+                      >
+                      <% } %> <% } %>
+                    </td>
+                  </tr>
+                  <% }) %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  @supports (padding: max(0px)) {
+    body {
+      padding-top: max(0px, env(safe-area-inset-top));
+      padding-bottom: max(0px, env(safe-area-inset-bottom));
+    }
+  }
+
+  a.badge {
+    text-decoration: none;
+  }
+
+  .bg-image {
+    position: relative;
+    background: url("/images/BLDepan1.png") no-repeat center center fixed;
+    background-size: cover;
+    min-height: 100vh;
+  }
+
+  .bg-image::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.45);
+    z-index: 1;
+  }
+
+  .form-card {
+    position: relative;
+    z-index: 2;
+    border: none;
+    border-radius: 20px;
+    padding: 25px;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
+  }
+
+  .glass-input {
+    background: rgba(255, 255, 255, 0.15) !important;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #fff;
+    transition: all 0.3s ease;
+  }
+
+  .glass-input:focus {
+    background: rgba(255, 255, 255, 0.25) !important;
+    border-color: #fff;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.4);
+    color: #fff;
+  }
+
+  .glass-input::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  .btn-gradient {
+    background: linear-gradient(135deg, #4facfe, #00f2fe);
+    border: none;
+    color: white;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+  }
+
+  .btn-gradient:hover {
+    background: linear-gradient(135deg, #43e97b, #38f9d7);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+  }
+
+  .line {
+    width: 60px;
+    height: 3px;
+    background: #00f2fe;
+    border-radius: 5px;
+  }
+
+  .input-group-text {
+    font-weight: bold;
+    border-radius: 10px;
+  }
+
+  select.glass-input {
+    cursor: pointer;
+    appearance: none;
+  }
+
+  select.glass-input option {
+    background: #1e1e1e;
+    color: #fff;
+  }
+
+  .time-input-container {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    width: 100%;
+  }
+
+  .time-input-container .input-group-text {
+    padding: 0 8px;
+    font-size: 1.1rem;
+  }
+
+  .glass-input {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 8px;
+    color: #fff;
+    padding: 6px 10px;
+    flex: 1;
+  }
+
+  .glass-input:focus {
+    outline: none;
+    border-color: #00b4d8;
+    box-shadow: 0 0 8px rgba(0, 180, 216, 0.6);
+  }
+
+  .glass-input option {
+    background: #1a1a1a;
+    color: #fff;
+  }
+
+  .table-responsive {
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.05);
+    scrollbar-width: none;
+  }
+  .table-responsive::-webkit-scrollbar {
+    display: none;
+  }
+
+  .table {
+    border-collapse: separate;
+    border-spacing: 0;
+  }
+
+  .table th,
+  .table td {
+    white-space: nowrap;
+    padding: 10px 15px;
+  }
+
+  .table thead th {
+    border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+    color: #00f2fe;
+    font-weight: bold;
+  }
+
+  .table {
+    border-collapse: separate;
+    border-spacing: 0;
+    background: transparent !important;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .table th,
+  .table td {
+    background: transparent !important;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    border: none;
+    padding: 10px 15px;
+  }
+
+  .table thead th {
+    background: rgba(255, 255, 255, 0.08);
+    border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+    color: #00f2fe;
+    font-weight: bold;
+  }
+
+  .table tbody tr:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+</style>

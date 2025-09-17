@@ -1,0 +1,68 @@
+<div class="d-flex justify-content-center align-items-center" style="min-height: 100vh; background: linear-gradient(#3d2f14, #dbab51);">
+    <div class="card p-3 shadow-lg" 
+         style="width: 90%; background: rgba(255,255,255,0.15); backdrop-filter: blur(10px); border-radius: 20px; border: 1px solid rgba(255,255,255,0.2);">
+        
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="fw-bold text-white">Data Izin Murid</h2>
+        </div>
+
+        <div class="table-responsive no-scrollbar">
+            <table class="table table-hover align-middle text-white small">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Nama</th>
+                        <th>Kelas</th>
+                        <th>Keperluan</th>
+                        <th>Jam Selesai</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% izins.forEach((izin, index) => { 
+                        let rowClass = "";
+                        if (izin.status === "unaccept") rowClass = "table-warning";
+                        else if (izin.status === "accwakel") rowClass = "table-primary";
+                        else if (izin.status === "acckesiswaan") rowClass = "table-info";
+                        else if (izin.status === "accpiket") rowClass = "table-success";
+                        else if (izin.status === "reject") rowClass = "table-danger";
+                    %>
+                        <tr class="<%= rowClass %>">
+                            <td><%= index + 1 %></td>
+                            <td><%= izin.nama %></td>
+                            <td><%= izin.kelas %></td>
+                            <td><%= izin.keperluan %></td>
+                            <td><%= izin.jam_selesai %></td>
+                            <td>
+                                <% if (izin.status === 'unaccept') { %>
+                                    <a href="/accept_wakel/<%= izin.id %>" class="btn btn-sm btn-success me-2">Izinkan</a>
+                                <% } else if (izin.status === 'accwakel') { %>
+                                    <% if (role === 'wakel') { %>
+                                        <a href="/accept_kesiswaan/<%= izin.id %>" class="btn btn-sm btn-success me-2 disabled">Izinkan</a>
+                                    <% } else { %>
+                                        <a href="/accept_kesiswaan/<%= izin.id %>" class="btn btn-sm btn-success me-2">Izinkan</a>
+                                    <% } %>
+                                <% } else if (izin.status === 'acckesiswaan') { %>
+                                    <% if (role === 'kesiswaan' || role === 'wakel') { %>
+                                        <a href="/accept_piket/<%= izin.id %>" class="btn btn-sm btn-success me-2 disabled">Izinkan</a>
+                                    <% } else { %>
+                                        <a href="/accept_piket/<%= izin.id %>" class="btn btn-sm btn-success me-2">Izinkan</a>
+                                    <% } %>
+                                <% } else { %>
+                                    <a href="#" class="btn btn-sm btn-success me-2 disabled">Izinkan</a>
+                                <% } %>
+
+                                <% if (izin.status === 'reject') { %>
+                                    <a href="/tolak_izin/<%= izin.id %>" class="btn btn-sm btn-danger me-2 disabled">Tolak Izin</a>
+                                <% } else { %>
+                                    <a href="/tolak_izin/<%= izin.id %>" class="btn btn btn-sm btn-danger me-2">Tolak Izin</a>
+                                <% } %>
+                            </td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>

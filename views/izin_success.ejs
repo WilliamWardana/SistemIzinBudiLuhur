@@ -1,0 +1,95 @@
+<div class="success-container">
+  <div class="success-card">
+    <i class="bi bi-check-circle-fill check-icon"></i>
+    <h2 class="success-title">Izin Berhasil Diajukan!</h2>
+
+    <div class="detail-box">
+      <div class="detail-item"><span>Nama:</span><%= izin.nama %></div>
+      <div class="detail-item"><span>Kelas:</span><%= izin.kelas %></div>
+      <div class="detail-item"><span>Keperluan:</span><%= izin.keperluan %></div>
+      <div class="detail-item"><span>Tanggal:</span><%= formatDate(izin.created_at) %></div>
+      <div class="detail-item"><span>Jam Selesai:</span><%= izin.jam_selesai %></div>
+    </div>
+
+    <a href="/" class="btn-home">Kembali ke Beranda</a>
+  </div>
+</div>
+
+<style>
+  body {
+    margin: 0;
+    font-family: "Segoe UI", sans-serif;
+    background: linear-gradient(135deg, #8a630e, #ffae00);
+    color: #fff;
+  }
+
+  .success-container {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+  }
+
+  .success-card {
+    background: #ffffff10;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 20px;
+    padding: 35px 25px;
+    max-width: 480px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(6px);
+  }
+
+  .check-icon {
+    font-size: 4.5rem;
+    color: #ffae00;
+    margin-bottom: 20px;
+  }
+
+  .success-title {
+    font-size: 1.7rem;
+    font-weight: bold;
+    margin-bottom: 25px;
+  }
+
+  .detail-box {
+    background: rgba(255, 255, 255, 0.12);
+    border-radius: 12px;
+    padding: 18px 20px;
+    margin-bottom: 25px;
+    text-align: left;
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+
+  .detail-item {
+    margin-bottom: 10px;
+  }
+
+  .detail-item span {
+    font-weight: 600;
+    display: inline-block;
+    width: 120px;
+    color: #bdf2d1;
+  }
+
+  .btn-home {
+    display: inline-block;
+    background: #ffae00;
+    color: #8a630e;
+    border-radius: 10px;
+    padding: 12px 24px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+
+  .btn-home:hover {
+    background: #8a630e;
+    color: #fff;
+    transform: translateY(-2px);
+  }
+</style>
